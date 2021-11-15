@@ -1,5 +1,5 @@
-import { ReactNode, ReactChild } from 'react';
-import Nav from '../Header/Nav';
+import { ReactNode, ReactChild } from "react";
+import Nav from "src/components/Header/Nav";
 
 interface LayoutProps {
   children: ReactNode | ReactChild;

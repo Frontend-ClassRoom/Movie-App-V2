@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ROUTE_PATH } from '../../constants/routes';
+import { ROUTE_PATH } from 'src/constants/routes';
 
 const Nav = () => {
   return (
