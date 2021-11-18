@@ -46,7 +46,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.js?x$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
