@@ -1,0 +1,4 @@
+dist
+reset.css
+resources/plugins/*.min.js
+.eslintrc.js
