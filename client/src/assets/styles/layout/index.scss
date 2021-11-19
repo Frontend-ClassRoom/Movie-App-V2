@@ -1,15 +1,14 @@
-@use "../global/function" as func;
+@use 'pages';
 
-main {
+.container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  height: 100vh;
 }
 
-.box {
-  background: func.imgUrl("images/check.svg");
-  background-size: cover;
-  background-position: center;
-  min-height: 300px;
-  width: 100px;
+.contents {
+  margin: 0 auto;
+  max-width: 1024px;
+  width: 100%;
+  height: 100%;
 }

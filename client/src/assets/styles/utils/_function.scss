@@ -1,0 +1,3 @@
+@function imgUrl($filePathName) {
+  @return url('../images/#{$filePathName}');
+}
