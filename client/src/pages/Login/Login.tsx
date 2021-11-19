@@ -1,13 +1,13 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, SetStateAction, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Input from '~/components/common/Input';
 import { Account } from '~/constants/account';
-import { LOGIN_ERROR } from '~/constants/error';
+import { LoginErrorType, LOGIN_ERROR } from '~/constants/error';
 import { ROUTE_PATH } from '~/constants/path';
 
 const Login = () => {
   const navigate = useNavigate();
-  const [error, setError] = useState('');
+  const [error, setError] = useState<LoginErrorType | ''>('');
   const [disabled, setDisabled] = useState(false);
   const [account, setAccount] = useState<Account>({
     id: '',
@@ -22,7 +22,8 @@ const Login = () => {
     });
   };
 
-  const handleClearError = () => {
+  const handleErrorMessage = (errorMessage: LoginErrorType) => {
+    setError(errorMessage);
     setTimeout(() => {
       setError('');
       setDisabled(false);
@@ -34,12 +35,10 @@ const Login = () => {
     const isNullUserId = id === '';
     const isNullUserPassowrd = password === '';
     if (isNullUserId) {
-      setError(LOGIN_ERROR.CHECK_ID);
-      handleClearError();
+      handleErrorMessage(LOGIN_ERROR.CHECK_ID);
       return false;
     } else if (isNullUserPassowrd) {
-      setError(LOGIN_ERROR.CHECK_PASSWORD);
-      handleClearError();
+      handleErrorMessage(LOGIN_ERROR.CHECK_PASSWORD);
       return false;
     }
     return true;
@@ -51,6 +50,7 @@ const Login = () => {
     passUserAccount && navigate(ROUTE_PATH.HOME);
   };
 
+  console.log(error, disabled);
   return (
     <div className='page-login'>
       <h2 className='title'>LOGIN</h2>
