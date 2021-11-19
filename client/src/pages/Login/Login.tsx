@@ -50,7 +50,6 @@ const Login = () => {
     passUserAccount && navigate(ROUTE_PATH.HOME);
   };
 
-  console.log(error, disabled);
   return (
     <div className='page-login'>
       <h2 className='title'>LOGIN</h2>
