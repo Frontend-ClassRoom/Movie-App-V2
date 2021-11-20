@@ -5,11 +5,13 @@ import { Home, Login, Signin } from '~/pages';
 const MainRoutes = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path={ROUTE_PATH.HOME} element={<Home />} />
-        <Route path={ROUTE_PATH.LOG_IN} element={<Login />} />
-        <Route path={ROUTE_PATH.SIGN_IN} element={<Signin />} />
-      </Routes>
+      <div className='container'>
+        <Routes>
+          <Route path={ROUTE_PATH.HOME} element={<Home />} />
+          <Route path={ROUTE_PATH.LOG_IN} element={<Login />} />
+          <Route path={ROUTE_PATH.SIGN_IN} element={<Signin />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 };

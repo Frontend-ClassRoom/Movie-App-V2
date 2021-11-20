@@ -1,6 +1,6 @@
 const Signin = () => {
   return (
-    <div>
+    <div className='contents'>
       <p>Signin</p>
     </div>
   );
