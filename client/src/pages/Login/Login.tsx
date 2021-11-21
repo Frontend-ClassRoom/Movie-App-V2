@@ -82,6 +82,14 @@ const Login = () => {
           Find
         </button>
       </div>
+      <button
+        type='button'
+        title='Sign In'
+        className='btn-signin'
+        onClick={() => navigate(ROUTE_PATH.SIGN_IN)}
+      >
+        Signin
+      </button>
     </div>
   );
 };
