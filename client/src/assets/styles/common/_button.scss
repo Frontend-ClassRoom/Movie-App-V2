@@ -2,19 +2,21 @@ button {
   width: 100%;
   transition: all 0.3s;
   &[class^='btn'] {
+    padding: 5px 0;
     border: 1px solid rgba(0, 0, 0, 0.5);
     border-radius: 5px;
   }
   &.btn-login,
   &.btn-signin,
   &.btn-forgot {
-    height: 30px;
-    line-height: 30px;
     font-size: 16px;
   }
   &.btn-forgot {
     border-color: green;
     color: green;
+  }
+  &::selection {
+    background: transparent;
   }
   &:disabled {
     border-color: rgba(0, 0, 0, 0.1);
