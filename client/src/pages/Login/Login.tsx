@@ -82,6 +82,15 @@ const Login = () => {
           Find
         </button>
       </div>
+      <button
+        type='button'
+        title='Sign In'
+        className='btn-signin'
+        disabled={disabled}
+        onClick={() => navigate(ROUTE_PATH.SIGN_IN)}
+      >
+        Signin
+      </button>
     </div>
   );
 };
