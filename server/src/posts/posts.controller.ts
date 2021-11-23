@@ -6,6 +6,8 @@ import {
   Param,
   Patch,
   Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post-dto';
 import { Post as PostModel, PostStatus } from './model/post.model';
@@ -36,6 +38,7 @@ export class PostsController {
   }
 
   @Post()
+  @UsePipes(ValidationPipe)
   createBoard(@Body() createPostDto: CreatePostDto): PostModel {
     /**
      * @argument
