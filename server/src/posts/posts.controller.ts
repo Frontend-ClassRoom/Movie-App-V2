@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post-dto';
 import { Post as PostModel, PostStatus } from './model/post.model';
+import { PostStatusValidationPipe } from './pipes/posts-status-validation.pipe';
 import { PostsService } from './posts.service';
 
 @Controller('posts')
@@ -61,8 +62,8 @@ export class PostsController {
   @Patch('/:id/status')
   updatePostStatus(
     @Param('id') id: string,
-    @Body('status') status: PostStatus,
+    @Body('status', PostStatusValidationPipe) status: PostStatus,
   ): PostModel {
-    return this.updatePostStatus(id, status);
+    return this.postsService.updatePostStatus(id, status);
   }
 }
