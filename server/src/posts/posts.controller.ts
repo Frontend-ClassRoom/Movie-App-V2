@@ -39,7 +39,7 @@ export class PostsController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  createBoard(@Body() createPostDto: CreatePostDto): PostModel {
+  createPost(@Body() createPostDto: CreatePostDto): PostModel {
     /**
      * @argument
      * - @Body() body,

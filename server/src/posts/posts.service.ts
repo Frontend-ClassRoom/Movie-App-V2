@@ -33,7 +33,14 @@ export class PostsService {
   }
 
   deletePost(id: string): void {
-    this.posts = this.posts.filter((post) => post.id !== id);
+    /**
+     * @description
+     * - 없는 포스트를 지우려고 할 때
+     *   getPostsById를 이용해 found 값을 찾아서 사용
+     *   만약 found 가 없다면 에러발생 ( getPostsById 에서 에러가 발생된다. )
+     */
+    const found = this.getPostsById(id);
+    this.posts = this.posts.filter((post) => post.id !== found.id);
   }
 
   updatePostStatus(id: string, status: PostStatus): Post {
