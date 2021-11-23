@@ -23,7 +23,7 @@ export class PostsController {
   }
 
   @Get('/:id')
-  getBoardById(@Param('id') id: string): PostModel {
+  getPostsById(@Param('id') id: string): PostModel {
     /**
      * @argument
      * - @Param() params: string[]
@@ -34,7 +34,7 @@ export class PostsController {
      *   @description
      *   - 1개의 params를 가져올 때
      */
-    return this.postsService.getPostById(id);
+    return this.postsService.getPostsById(id);
   }
 
   @Post()

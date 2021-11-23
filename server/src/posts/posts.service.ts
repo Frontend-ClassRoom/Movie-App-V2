@@ -1,5 +1,5 @@
 import { v1 as uuid } from 'uuid';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Post, PostStatus } from './model/post.model';
 import { CreatePostDto } from './dto/create-post-dto';
 
@@ -11,8 +11,13 @@ export class PostsService {
     return this.posts;
   }
 
-  getPostById(id: string): Post {
-    return this.posts.find((post) => post.id === id);
+  getPostsById(id: string): Post {
+    const found = this.posts.find((post) => post.id === id);
+    const isNotFound = found === undefined || found === null;
+    if (isNotFound) {
+      throw new NotFoundException(`포스트가 존재하지 않습니다. id=${id}`);
+    }
+    return found;
   }
 
   createPost(createPostDto: CreatePostDto): Post {
@@ -32,7 +37,7 @@ export class PostsService {
   }
 
   updatePostStatus(id: string, status: PostStatus): Post {
-    const post = this.getPostById(id);
+    const post = this.getPostsById(id);
     post.status = status;
     return post;
   }
