@@ -24,13 +24,4 @@ export class PostRepository extends Repository<Posts> {
       throw new NotFoundException(`포스트가 존재하지 않습니다.`);
     }
   }
-
-  async getPostsById(id: number): Promise<Posts> {
-    const found = await this.findOne(id);
-    const isNotFound = found === undefined || found === null;
-    if (isNotFound) {
-      throw new NotFoundException(`포스트가 존재하지 않습니다.`);
-    }
-    return found;
-  }
 }
