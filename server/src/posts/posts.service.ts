@@ -1,51 +1,42 @@
-import { v1 as uuid } from 'uuid';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Post, PostStatus } from './model/post.model';
+import { InjectRepository } from '@nestjs/typeorm';
+import { PostRepository } from './posts.repository';
 import { CreatePostDto } from './dto/create-post-dto';
+import { Posts } from './posts.entity';
+import { PostStatus } from './model/post.model';
 
 @Injectable()
 export class PostsService {
-  private posts: Post[] = [];
+  constructor(
+    @InjectRepository(PostRepository)
+    private postRepository: PostRepository,
+  ) {}
 
-  getAllPosts(): Post[] {
-    return this.posts;
+  async getAllPosts(): Promise<Posts[]> {
+    return this.postRepository.find();
   }
 
-  getPostsById(id: string): Post {
-    const found = this.posts.find((post) => post.id === id);
+  async getPostsById(id: number): Promise<Posts> {
+    const found = await this.postRepository.findOne(id);
     const isNotFound = found === undefined || found === null;
     if (isNotFound) {
-      throw new NotFoundException(`포스트가 존재하지 않습니다. id=${id}`);
+      throw new NotFoundException('포스트가 존재하지 않습니다.');
     }
     return found;
   }
 
-  createPost(createPostDto: CreatePostDto): Post {
-    const { title, desc } = createPostDto;
-    const postParams: Post = {
-      id: uuid(),
-      title,
-      desc,
-      status: PostStatus.PUBLIC,
-    };
-    this.posts.push(postParams);
-    return postParams;
+  createPost(createPostDto: CreatePostDto): Promise<Posts> {
+    return this.postRepository.createPost(createPostDto);
   }
 
-  deletePost(id: string): void {
-    /**
-     * @description
-     * - 없는 포스트를 지우려고 할 때
-     *   getPostsById를 이용해 found 값을 찾아서 사용
-     *   만약 found 가 없다면 에러발생 ( getPostsById 에서 에러가 발생된다. )
-     */
-    const found = this.getPostsById(id);
-    this.posts = this.posts.filter((post) => post.id !== found.id);
+  deletePost(id: number): Promise<void> {
+    return this.postRepository.deletePost(id);
   }
 
-  updatePostStatus(id: string, status: PostStatus): Post {
-    const post = this.getPostsById(id);
+  async updatePostStatus(id: number, status: PostStatus): Promise<Posts> {
+    const post = await this.getPostsById(id);
     post.status = status;
+    await this.postRepository.save(post);
     return post;
   }
 }
