@@ -7,10 +7,22 @@ export class Posts extends BaseEntity {
   id: number;
 
   @Column()
+  movieId: number;
+
+  @Column()
   title: string;
 
   @Column()
-  desc: string;
+  contents: string;
+
+  @Column()
+  rate: number;
+
+  @Column()
+  watchedDate: Date;
+
+  @Column()
+  regDate: Date;
 
   @Column()
   status: PostStatus;
