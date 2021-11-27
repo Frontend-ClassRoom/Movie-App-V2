@@ -6,7 +6,7 @@ import * as bcrypt from 'bcryptjs';
 import { ERROR_CODE } from 'src/constants/error';
 import { EntityRepository, Repository } from 'typeorm';
 import { AuthCredentialDto } from './dto/auth-credential-dto';
-import { User } from './user.entity';
+import { User } from './auth.entity';
 
 @EntityRepository(User)
 export class UesrRepository extends Repository<User> {
@@ -19,7 +19,6 @@ export class UesrRepository extends Repository<User> {
       userNickName,
       password: hashedPassword,
     });
-
     try {
       await this.save(user);
     } catch (error) {
