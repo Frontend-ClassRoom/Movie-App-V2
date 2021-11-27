@@ -1,3 +1,3 @@
 export * from './Home';
 export * from './Login';
-export * from './Signin';
+export * from './Signup';

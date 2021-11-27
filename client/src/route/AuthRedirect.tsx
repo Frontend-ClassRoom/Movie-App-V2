@@ -7,7 +7,7 @@ import { ROUTE_PATH } from '~/constants/path';
 interface Props {
   children: ReactNode;
 }
-const isLoginBlackListPath = ['/login', '/signin'];
+const isLoginBlackListPath = ['/login', '/signup'];
 
 const AuthRedirect = ({ children }: Props) => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const AuthRedirect = ({ children }: Props) => {
 
   useEffect(() => {
     if (isLogin && checkBlackListPath) return navigate(ROUTE_PATH.HOME);
-    if (isNotLogin) return navigate(ROUTE_PATH.LOG_IN);
+    if (isNotLogin && !checkBlackListPath) return navigate(ROUTE_PATH.LOG_IN);
   }, [pathname]);
 
   return <>{children}</>;

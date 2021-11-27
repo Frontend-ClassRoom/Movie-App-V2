@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ROUTE_PATH } from '~/constants/path';
-import { Home, Login, Signin } from '~/pages';
+import { Home, Login, Signup } from '~/pages';
 import { AuthRedirect } from '.';
 
 const MainRoutes = () => {
@@ -11,7 +11,7 @@ const MainRoutes = () => {
           <Routes>
             <Route path={ROUTE_PATH.HOME} element={<Home />} />
             <Route path={ROUTE_PATH.LOG_IN} element={<Login />} />
-            <Route path={ROUTE_PATH.SIGN_IN} element={<Signin />} />
+            <Route path={ROUTE_PATH.SIGN_UP} element={<Signup />} />
           </Routes>
         </AuthRedirect>
       </div>
