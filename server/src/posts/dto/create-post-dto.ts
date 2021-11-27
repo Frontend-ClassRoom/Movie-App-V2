@@ -2,8 +2,16 @@ import { IsNotEmpty } from 'class-validator';
 
 export class CreatePostDto {
   @IsNotEmpty()
+  movieId: number;
+
+  @IsNotEmpty()
   title: string;
 
   @IsNotEmpty()
-  desc: string;
+  contents: string;
+
+  @IsNotEmpty()
+  rate: number;
+
+  watchedDate: number;
 }

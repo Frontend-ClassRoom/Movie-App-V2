@@ -7,10 +7,16 @@ import { PostStatus } from './model/post.model';
 @EntityRepository(Posts)
 export class PostRepository extends Repository<Posts> {
   async createPost(createPostDto: CreatePostDto): Promise<Posts> {
-    const { title, desc } = createPostDto;
+    const { movieId, title, contents, watchedDate, rate } = createPostDto;
+    const regDate = new Date();
+    const watchDate = watchedDate ? watchedDate : new Date();
     const post = this.create({
+      movieId,
       title,
-      desc,
+      contents,
+      rate,
+      watchedDate: watchDate,
+      regDate,
       status: PostStatus.PUBLIC,
     });
     await this.save(post);
