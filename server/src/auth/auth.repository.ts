@@ -1,6 +1,7 @@
 import {
   ConflictException,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { ERROR_CODE } from 'src/constants/error';
@@ -28,6 +29,14 @@ export class UesrRepository extends Repository<User> {
       } else {
         throw new InternalServerErrorException();
       }
+    }
+  }
+
+  async deleteUser(id: number): Promise<void> {
+    const result = await this.delete(id);
+    const isNotFound = result.affected === 0;
+    if (isNotFound) {
+      throw new NotFoundException(`유저가 존재하지 않습니다.`);
     }
   }
 }

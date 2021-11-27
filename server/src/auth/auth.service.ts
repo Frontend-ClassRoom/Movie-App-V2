@@ -4,6 +4,7 @@ import { AuthCredentialDto } from './dto/auth-credential-dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UesrRepository } from './auth.repository';
 import { JwtService } from '@nestjs/jwt';
+import { User } from './auth.entity';
 
 @Injectable()
 export class AuthService {
@@ -30,5 +31,13 @@ export class AuthService {
     } else {
       throw new UnauthorizedException('LOGIN FAILED');
     }
+  }
+
+  async getAllUser(): Promise<User[]> {
+    return this.userRepository.find();
+  }
+
+  deleteUser(id: number): Promise<void> {
+    return this.userRepository.deleteUser(id);
   }
 }
