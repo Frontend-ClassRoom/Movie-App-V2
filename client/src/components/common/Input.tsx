@@ -7,6 +7,7 @@ interface InputProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
   autoComplete?: string;
+  label?: string;
 }
 
 const Input = ({
@@ -16,10 +17,13 @@ const Input = ({
   onChange,
   disabled = false,
   autoComplete = 'off',
+  label = '',
 }: InputProps) => {
   return (
     <span className='inpbox'>
+      {label && <label htmlFor={name}>{label}</label>}
       <input
+        id={name}
         type={type}
         value={value}
         name={name}
