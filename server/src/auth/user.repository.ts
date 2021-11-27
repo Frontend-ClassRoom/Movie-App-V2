@@ -11,17 +11,21 @@ import { User } from './user.entity';
 @EntityRepository(User)
 export class UesrRepository extends Repository<User> {
   async createUser(authCredentialDto: AuthCredentialDto): Promise<void> {
-    const { username, password } = authCredentialDto;
+    const { userId, password, userNickName } = authCredentialDto;
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
-    const user = this.create({ username, password: hashedPassword });
+    const user = this.create({
+      userId,
+      userNickName,
+      password: hashedPassword,
+    });
 
     try {
       await this.save(user);
     } catch (error) {
       const { code } = error;
-      if (code === ERROR_CODE.ALREADY_USERNAME) {
-        throw new ConflictException('Existing username');
+      if (code === ERROR_CODE.ALREADY_USERID) {
+        throw new ConflictException('Existing USER ID');
       } else {
         throw new InternalServerErrorException();
       }

@@ -20,11 +20,11 @@ export class AuthService {
   async signIn(
     authCredentialDto: AuthCredentialDto,
   ): Promise<{ accessToken: string }> {
-    const { username, password } = authCredentialDto;
-    const findUser = await this.userRepository.findOne({ username });
+    const { userId, password } = authCredentialDto;
+    const findUser = await this.userRepository.findOne({ userId });
     if (findUser && (await bcrypt.compare(password, findUser.password))) {
       // 유저 토큰 생성 ( Secret + Payload )
-      const payload = { username };
+      const payload = { userId };
       const accessToken = await this.jwtService.sign(payload);
       return { accessToken: accessToken };
     } else {
