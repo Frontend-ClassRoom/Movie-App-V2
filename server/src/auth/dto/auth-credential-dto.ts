@@ -1,4 +1,10 @@
+import { IsNotEmpty } from 'class-validator';
 export class AuthCredentialDto {
-  username: string;
+  @IsNotEmpty()
+  userId: string;
+
+  @IsNotEmpty()
   password: string;
+
+  userNickName: string;
 }

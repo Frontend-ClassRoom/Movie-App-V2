@@ -1,18 +1,22 @@
-import { ChangeEvent, SetStateAction, useState } from 'react';
+import { ChangeEvent, SetStateAction, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useLoginMutation } from '~/api/auth';
 import Input from '~/components/common/Input';
 import { Account } from '~/constants/account';
 import { LoginErrorType, LOGIN_ERROR } from '~/constants/error';
 import { ROUTE_PATH } from '~/constants/path';
+import { setLogin, userSelector } from '~/store/slices/user';
 
 const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<LoginErrorType | ''>('');
-  const [disabled, setDisabled] = useState(false);
   const [account, setAccount] = useState<Account>({
-    id: '',
+    userId: '',
     password: '',
   });
+  const { isLogin } = useSelector(userSelector);
+  const [login, { error: mutationError, isSuccess, isLoading }] = useLoginMutation();
 
   const handleAccount = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,13 +30,12 @@ const Login = () => {
     setError(errorMessage);
     setTimeout(() => {
       setError('');
-      setDisabled(false);
     }, 1500);
   };
 
   const checkValidation = () => {
-    const { id, password } = account;
-    const isNullUserId = id === '';
+    const { userId, password } = account;
+    const isNullUserId = userId === '';
     const isNullUserPassowrd = password === '';
     if (isNullUserId) {
       handleErrorMessage(LOGIN_ERROR.CHECK_ID);
@@ -44,53 +47,78 @@ const Login = () => {
     return true;
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const passUserAccount = checkValidation() === true;
-    setDisabled(true);
-    passUserAccount && navigate(ROUTE_PATH.HOME);
+    if (passUserAccount) {
+      const { userId, password } = account;
+      await login({ userId, password });
+    }
   };
+
+  useEffect(() => {
+    const isMutationError = mutationError && 'status' in mutationError;
+    if (isMutationError) {
+      const { status } = mutationError;
+      if (status === 401) {
+        handleErrorMessage(LOGIN_ERROR.UNAUTHORIZED);
+        setAccount({
+          ...account,
+          userId: '',
+          password: '',
+        });
+      }
+    }
+    if (isSuccess) {
+      navigate(ROUTE_PATH.HOME);
+    }
+  }, [mutationError, isSuccess]);
+
+  if (isLogin) return null;
 
   return (
     <div className='page-login'>
       <h2 className='title'>LOGIN</h2>
-      <Input
-        value={account.id}
-        type='text'
-        name='id'
-        onChange={handleAccount}
-        disabled={disabled}
-      />
-      <Input
-        value={account.password}
-        type='password'
-        name='password'
-        onChange={handleAccount}
-        disabled={disabled}
-      />
-      {error && <p className='error-message'>{error}</p>}
-      <div className='btn-set'>
-        <button
-          type='button'
-          title='login'
-          className='btn-login'
-          disabled={disabled}
-          onClick={handleLogin}
-        >
-          Login
-        </button>
-        <button type='button' title='find password' className='btn-forgot' disabled={disabled}>
-          Find
-        </button>
+      <div className='form'>
+        <Input
+          type='text'
+          name='userId'
+          value={account.userId}
+          label='ID'
+          onChange={handleAccount}
+          onSubmit={handleLogin}
+          disabled={isLoading}
+        />
+        <Input
+          type='password'
+          name='password'
+          value={account.password}
+          label='Password'
+          onChange={handleAccount}
+          onSubmit={handleLogin}
+          disabled={isLoading}
+        />
+        <div className='btn-set'>
+          <button
+            type='button'
+            title='login'
+            className='btn-login'
+            onClick={handleLogin}
+            disabled={isLoading}
+          >
+            Login
+          </button>
+          <button
+            type='button'
+            title='Sign In'
+            className='btn-signin'
+            disabled={isLoading}
+            onClick={() => navigate(ROUTE_PATH.SIGN_UP)}
+          >
+            Signup
+          </button>
+        </div>
+        {error && <p className='error-message'>{error}</p>}
       </div>
-      <button
-        type='button'
-        title='Sign In'
-        className='btn-signin'
-        disabled={disabled}
-        onClick={() => navigate(ROUTE_PATH.SIGN_IN)}
-      >
-        Signin
-      </button>
     </div>
   );
 };

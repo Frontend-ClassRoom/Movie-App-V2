@@ -27,7 +27,6 @@ button {
 .btn-set {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
   width: 100%;
   & > button {
     &:not(:first-child) {
