@@ -35,7 +35,6 @@ const Signup = () => {
     }
   }, [isSuccess]);
 
-  console.log(isError);
   if (isLogin) return null;
 
   return (
@@ -48,6 +47,7 @@ const Signup = () => {
           name='userId'
           label='ID'
           onChange={handleAccount}
+          onSubmit={handleSignup}
           disabled={isLoading}
         />
         <Input
@@ -56,6 +56,7 @@ const Signup = () => {
           name='userNickName'
           label='NickName'
           onChange={handleAccount}
+          onSubmit={handleSignup}
           disabled={isLoading}
         />
         <Input
@@ -64,6 +65,7 @@ const Signup = () => {
           name='password'
           label='Password'
           onChange={handleAccount}
+          onSubmit={handleSignup}
           disabled={isLoading}
         />
         <button type='button' title='Sign Up' className='btn-signup' onClick={handleSignup}>

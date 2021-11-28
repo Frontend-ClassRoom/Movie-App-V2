@@ -1,5 +1,5 @@
 import { ChangeEvent, SetStateAction, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '~/api/auth';
 import Input from '~/components/common/Input';
@@ -10,7 +10,6 @@ import { setLogin, userSelector } from '~/store/slices/user';
 
 const Login = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [error, setError] = useState<LoginErrorType | ''>('');
   const [account, setAccount] = useState<Account>({
     userId: '',
@@ -70,7 +69,6 @@ const Login = () => {
       }
     }
     if (isSuccess) {
-      dispatch(setLogin(account.userId));
       navigate(ROUTE_PATH.HOME);
     }
   }, [mutationError, isSuccess]);
@@ -87,6 +85,7 @@ const Login = () => {
           value={account.userId}
           label='ID'
           onChange={handleAccount}
+          onSubmit={handleLogin}
           disabled={isLoading}
         />
         <Input
@@ -95,6 +94,7 @@ const Login = () => {
           value={account.password}
           label='Password'
           onChange={handleAccount}
+          onSubmit={handleLogin}
           disabled={isLoading}
         />
         <div className='btn-set'>
@@ -102,8 +102,8 @@ const Login = () => {
             type='button'
             title='login'
             className='btn-login'
-            disabled={isLoading}
             onClick={handleLogin}
+            disabled={isLoading}
           >
             Login
           </button>

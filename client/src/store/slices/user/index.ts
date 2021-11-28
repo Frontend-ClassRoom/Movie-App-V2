@@ -5,15 +5,17 @@ import { RootState } from '~/store/reducer';
 const initialState: User = {
   isLogin: false,
   nickName: '',
+  token: '',
 };
 
 const userSlice = createSlice({
   name: 'USER',
   initialState,
   reducers: {
-    setLogin: (state, action) => {
+    setLogin: (state, { payload }) => {
       state.isLogin = true;
-      state.nickName = action.payload;
+      state.nickName = payload.userId;
+      state.token = payload.token;
     },
     setLogout: (state) => {
       state.isLogin = false;

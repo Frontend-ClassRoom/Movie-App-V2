@@ -5,6 +5,7 @@ interface InputProps {
   value: string | number;
   name: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onSubmit?: () => void;
   disabled?: boolean;
   autoComplete?: string;
   label?: string;
@@ -15,6 +16,7 @@ const Input = ({
   value,
   name,
   onChange,
+  onSubmit,
   disabled = false,
   autoComplete = 'off',
   label = '',
@@ -30,6 +32,7 @@ const Input = ({
         onChange={onChange}
         autoComplete={autoComplete}
         disabled={disabled}
+        onKeyPress={(e) => e.key === 'Enter' && typeof onSubmit === 'function' && onSubmit()}
       />
     </span>
   );
