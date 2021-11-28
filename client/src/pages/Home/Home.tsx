@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useGetAllUserQuery } from '~/api/auth';
@@ -12,15 +13,16 @@ const Styles = {
 const Home = () => {
   const navigate = useNavigate();
   const dispath = useDispatch();
-  const { data } = useGetAllUserQuery(undefined);
+  const { data: AcountList, isFetching, isLoading } = useGetAllUserQuery(undefined);
   const { isLogin, nickName } = useSelector(userSelector);
   const isNotLogin = isLogin === false;
+
   const handleLogout = () => {
     navigate(ROUTE_PATH.LOG_IN);
     dispath(setLogout());
   };
 
-  console.log('@@ 가입한 유저목록', data);
+  console.log('@@ 유저리스트 테스트', AcountList, isLoading, isFetching);
   if (isNotLogin) return null;
 
   return (
