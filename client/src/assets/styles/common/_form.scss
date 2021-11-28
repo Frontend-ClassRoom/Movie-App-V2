@@ -1,0 +1,27 @@
+.form {
+  position: relative;
+  width: 100%;
+  & > button {
+    margin-top: 30px;
+  }
+  span.inpbox {
+    &:not(:first-of-type) {
+      margin-top: 10px;
+    }
+  }
+  p.error-message {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    margin-top: 10px;
+    width: 100%;
+    line-height: 1;
+    color: red;
+    font-size: 12px;
+    text-align: center;
+    transform: translateX(-50%);
+  }
+  div.btn-set {
+    margin: 30px 0 50px 0;
+  }
+}
