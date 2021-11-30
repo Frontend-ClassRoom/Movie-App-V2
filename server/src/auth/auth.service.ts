@@ -20,14 +20,17 @@ export class AuthService {
 
   async signIn(
     authCredentialDto: AuthCredentialDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ token: string; userNickName: string }> {
     const { userId, password } = authCredentialDto;
     const findUser = await this.userRepository.findOne({ userId });
     if (findUser && (await bcrypt.compare(password, findUser.password))) {
       // 유저 토큰 생성 ( Secret + Payload )
       const payload = { userId };
       const accessToken = await this.jwtService.sign(payload);
-      return { accessToken: accessToken };
+      return {
+        token: accessToken,
+        userNickName: findUser.userNickName || findUser.userId,
+      };
     } else {
       throw new UnauthorizedException('LOGIN FAILED');
     }

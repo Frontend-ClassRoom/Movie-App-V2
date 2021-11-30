@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useGetAllUserQuery } from '~/api/auth';
 import { ROUTE_PATH } from '~/constants/path';
-import { setLogout, userSelector } from '~/store/slices/user';
+import { setLogout, authSelector } from '~/store/slices/user';
 
 const Styles = {
   fontSize: '20px',
@@ -14,7 +14,7 @@ const Home = () => {
   const navigate = useNavigate();
   const dispath = useDispatch();
   const { data: AcountList, isFetching, isLoading } = useGetAllUserQuery(undefined);
-  const { isLogin, nickName } = useSelector(userSelector);
+  const { isLogin, nickName, token } = useSelector(authSelector);
   const isNotLogin = isLogin === false;
 
   const handleLogout = () => {
@@ -22,8 +22,8 @@ const Home = () => {
     dispath(setLogout());
   };
 
-  console.log('@@ 유저리스트 테스트', AcountList, isLoading, isFetching);
   if (isNotLogin) return null;
+  console.log('@@ 유저리스트 테스트', AcountList, isLoading, isFetching);
 
   return (
     <div className='contents'>

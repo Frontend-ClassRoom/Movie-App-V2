@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { userSelector } from '~/store/slices/user';
+import { authSelector } from '~/store/slices/user';
 import { ROUTE_PATH } from '~/constants/path';
 
 interface Props {
@@ -12,7 +12,7 @@ const isLoginBlackListPath = ['/login', '/signup'];
 const AuthRedirect = ({ children }: Props) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { isLogin } = useSelector(userSelector);
+  const { isLogin } = useSelector(authSelector);
   const isNotLogin = isLogin === false;
   const checkBlackListPath = isLoginBlackListPath.includes(pathname);
 

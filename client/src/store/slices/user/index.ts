@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { authApi } from '~/api/auth';
 import { User } from '~/constants/user';
 import { RootState } from '~/store/reducer';
 
@@ -12,19 +13,24 @@ const userSlice = createSlice({
   name: 'USER',
   initialState,
   reducers: {
-    setLogin: (state, { payload }) => {
-      state.isLogin = true;
-      state.nickName = payload.userId;
-      state.token = payload.token;
-    },
     setLogout: (state) => {
       state.isLogin = false;
       state.nickName = '';
     },
   },
-  extraReducers: {},
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      authApi.endpoints.login.matchFulfilled,
+      (state, { payload }: PayloadAction<{ token: string; userNickName: string }>) => {
+        const { token, userNickName } = payload;
+        state.isLogin = true;
+        state.nickName = userNickName;
+        state.token = token;
+      },
+    );
+  },
 });
 
-export const { setLogin, setLogout } = userSlice.actions;
-export const userSelector = (state: RootState) => state.user;
+export const { setLogout } = userSlice.actions;
+export const authSelector = (state: RootState) => state.user;
 export default userSlice;
