@@ -5,10 +5,10 @@ import { useSignupMutation } from '~/api/auth';
 import Input from '~/components/common/Input';
 import { Account } from '~/constants/account';
 import { ROUTE_PATH } from '~/constants/path';
-import { userSelector } from '~/store/slices/user';
+import { authSelector } from '~/store/slices/user';
 
 const Signup = () => {
-  const { isLogin } = useSelector(userSelector);
+  const { isLogin } = useSelector(authSelector);
   const navigate = useNavigate();
   const [signup, { isError, isSuccess, isLoading }] = useSignupMutation();
   const [account, setAccount] = useState<Account>({

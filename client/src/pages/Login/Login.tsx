@@ -1,3 +1,4 @@
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import { ChangeEvent, SetStateAction, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +7,7 @@ import Input from '~/components/common/Input';
 import { Account } from '~/constants/account';
 import { LoginErrorType, LOGIN_ERROR } from '~/constants/error';
 import { ROUTE_PATH } from '~/constants/path';
-import { setLogin, userSelector } from '~/store/slices/user';
+import { authSelector } from '~/store/slices/user';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Login = () => {
     userId: '',
     password: '',
   });
-  const { isLogin } = useSelector(userSelector);
+  const { isLogin } = useSelector(authSelector);
   const [login, { error: mutationError, isSuccess, isLoading }] = useLoginMutation();
 
   const handleAccount = (e: ChangeEvent<HTMLInputElement>) => {
@@ -56,9 +57,8 @@ const Login = () => {
   };
 
   useEffect(() => {
-    const isMutationError = mutationError && 'status' in mutationError;
-    if (isMutationError) {
-      const { status } = mutationError;
+    if (mutationError) {
+      const { status } = mutationError as FetchBaseQueryError;
       if (status === 401) {
         handleErrorMessage(LOGIN_ERROR.UNAUTHORIZED);
         setAccount({
