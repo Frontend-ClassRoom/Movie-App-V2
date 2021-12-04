@@ -3,6 +3,11 @@ import { authApi } from '~/api/auth';
 import { User } from '~/constants/user';
 import { RootState } from '~/store/reducer';
 
+interface LoginUserPayload {
+  token: string;
+  userNickName: string;
+}
+
 const initialState: User = {
   isLogin: false,
   nickName: '',
@@ -21,7 +26,7 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addMatcher(
       authApi.endpoints.login.matchFulfilled,
-      (state, { payload }: PayloadAction<{ token: string; userNickName: string }>) => {
+      (state, { payload }: PayloadAction<LoginUserPayload>) => {
         const { token, userNickName } = payload;
         state.isLogin = true;
         state.nickName = userNickName;
